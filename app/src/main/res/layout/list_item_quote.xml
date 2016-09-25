@@ -17,6 +17,7 @@
         android:gravity="left|center_vertical"
         tools:text="GOOG"
         style="@style/StockSymbolTextStyle"
+        android:contentDescription="@string/symbol_description"
         />
 
     <LinearLayout
@@ -33,6 +34,7 @@
             android:paddingRight="10sp"
             tools:text="1000.00"
             style="@style/BidPriceTextStyle"
+            android:contentDescription="@string/bid_price_description"
             />
 
         <TextView
@@ -44,6 +46,7 @@
             android:paddingRight="3dp"
             tools:text="100%"
             style="@style/PercentChangeTextStyle"
+            android:contentDescription="@string/change_description"
             />
     </LinearLayout>
 </LinearLayout>

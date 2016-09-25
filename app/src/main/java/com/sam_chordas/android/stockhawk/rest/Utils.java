@@ -95,4 +95,10 @@ public class Utils {
         }
         return builder.build();
     }
+
+    public static String getSpacedSymbol(String symbol) {
+        String spacedSymbol = symbol.replace("", " ").trim() + " ";
+        Log.d("MPRADO", "spacedSymbol: " + spacedSymbol);
+        return spacedSymbol;
+    }
 }

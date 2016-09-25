@@ -46,8 +46,17 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final Cursor cursor) {
-        viewHolder.symbol.setText(cursor.getString(cursor.getColumnIndex("symbol")));
-        viewHolder.bidPrice.setText(cursor.getString(cursor.getColumnIndex("bid_price")));
+        String symbol = cursor.getString(cursor.getColumnIndex("symbol"));
+        String spacedSymbol = Utils.getSpacedSymbol(symbol);
+        String symbolDescription = String.format(mContext.getString(R.string.symbol_description), spacedSymbol);
+        viewHolder.symbol.setText(symbol);
+        viewHolder.symbol.setContentDescription(symbolDescription);
+
+        String bidPrice = cursor.getString(cursor.getColumnIndex("bid_price"));
+        String bidPriceDescription = String.format(mContext.getString(R.string.bid_price_description), bidPrice);
+        viewHolder.bidPrice.setText(bidPrice);
+        viewHolder.bidPrice.setContentDescription(bidPriceDescription);
+
         int sdk = Build.VERSION.SDK_INT;
         if (cursor.getInt(cursor.getColumnIndex("is_up")) == 1) {
             if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
@@ -67,9 +76,15 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
             }
         }
         if (Utils.showPercent) {
-            viewHolder.change.setText(cursor.getString(cursor.getColumnIndex("percent_change")));
+            String change = cursor.getString(cursor.getColumnIndex("percent_change"));
+            String changeDescription = String.format(mContext.getString(R.string.change_description), change);
+            viewHolder.change.setText(change);
+            viewHolder.change.setContentDescription(changeDescription);
         } else {
-            viewHolder.change.setText(cursor.getString(cursor.getColumnIndex("change")));
+            String change = cursor.getString(cursor.getColumnIndex("change"));
+            String changeDescription = String.format(mContext.getString(R.string.change_description), change);
+            viewHolder.change.setText(change);
+            viewHolder.change.setContentDescription(changeDescription);
         }
     }
 
