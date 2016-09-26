@@ -2,6 +2,7 @@ package com.sam_chordas.android.stockhawk.service;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -34,6 +35,8 @@ public class StockTaskService extends GcmTaskService {
     private Context mContext;
     private StringBuilder mStoredSymbols = new StringBuilder();
     private boolean isUpdate;
+
+    public static final String ACTION_DATA_UPDATED = "com.sam_chordas.android.stockhawk.service.StockTaskService.ACTION_DATA_UPDATED";
 
     public StockTaskService() {
     }
@@ -137,6 +140,17 @@ public class StockTaskService extends GcmTaskService {
                 e.printStackTrace();
             }
         }
+
+        if(result == GcmNetworkManager.RESULT_SUCCESS){
+            Log.d("MPRADO", "Launching ACTION_DATA_UPDATED broadcast from StockTaskService");
+            Log.d("MPRADO", "mContext.getPackageName(): " + mContext.getPackageName());
+            Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED)
+                    .setPackage(mContext.getPackageName());
+            mContext.sendBroadcast(dataUpdatedIntent);
+        }
+
         return result;
     }
+
+
 }
