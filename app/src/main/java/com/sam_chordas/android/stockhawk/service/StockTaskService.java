@@ -53,6 +53,8 @@ public class StockTaskService extends GcmTaskService {
 
     @Override
     public int onRunTask(TaskParams params) {
+        Log.d("MPRADO", "StockTaskService.onRunTask");
+
         Cursor initQueryCursor;
         if (mContext == null) {
             mContext = this;
@@ -114,6 +116,7 @@ public class StockTaskService extends GcmTaskService {
 
         if (urlStringBuilder != null) {
             urlString = urlStringBuilder.toString();
+            Log.d("MPRADO", "urlString: " + urlString);
             try {
                 getResponse = fetchData(urlString);
                 result = GcmNetworkManager.RESULT_SUCCESS;

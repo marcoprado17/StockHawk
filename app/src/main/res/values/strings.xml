@@ -11,4 +11,8 @@
     <string name="symbol_description">Stock: %1$s.</string>
     <string name="bid_price_description">Bid price: %1$s.</string>
     <string name="change_description">Stock change: %1$s.</string>
+    <string name="stock_detail_title">Stock %1$s</string>
+    <string name="date_description"/>
+    <string name="time_description"/>
+    <string name="time_format">(%1$s)</string>
 </resources>
