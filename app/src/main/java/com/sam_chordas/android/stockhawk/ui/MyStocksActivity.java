@@ -16,10 +16,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,35 +62,31 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        ConnectivityManager cm =
-                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
         setContentView(R.layout.activity_my_stocks);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        // The intent service is for executing immediate pulls from the Yahoo API
-        // GCMTaskService can only schedule tasks, they cannot execute immediately
-        mServiceIntent = new Intent(this, StockIntentService.class);
-        if (savedInstanceState == null) {
-            // Run the initialize task service so that some stocks appear upon an empty database
-            mServiceIntent.putExtra("tag", "init");
-            if (isConnected) {
-                startService(mServiceIntent);
-            } else {
-                networkToast();
-            }
+        pullFromYahooAPI(savedInstanceState);
+
+        Button tryAgainButton = (Button) findViewById(R.id.try_again_button);
+        if (tryAgainButton != null) {
+            tryAgainButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pullFromYahooAPI(null);
+                }
+            });
         }
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
-        mCursorAdapter = new QuoteCursorAdapter(this, null);
+        View emptyView = findViewById(R.id.recyclerview_empty);
+        mCursorAdapter = new QuoteCursorAdapter(this, null, emptyView);
         recyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(this,
                 new RecyclerViewItemClickListener.OnItemClickListener() {
                     @Override
@@ -168,6 +166,28 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         }
     }
 
+    private void pullFromYahooAPI(Bundle savedInstanceState) {
+        Log.d("MPRADO", "pullFromYahooAPI");
+
+        ConnectivityManager cm =
+                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        // The intent service is for executing immediate pulls from the Yahoo API
+        // GCMTaskService can only schedule tasks, they cannot execute immediately
+        mServiceIntent = new Intent(this, StockIntentService.class);
+        if (savedInstanceState == null) {
+            // Run the initialize task service so that some stocks appear upon an empty database
+            mServiceIntent.putExtra("tag", "init");
+            if (isConnected) {
+                startService(mServiceIntent);
+            } else {
+                networkToast();
+            }
+        }
+    }
 
     @Override
     public void onResume() {

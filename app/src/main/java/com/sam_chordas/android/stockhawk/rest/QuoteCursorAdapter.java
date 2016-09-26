@@ -32,10 +32,12 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
     private static Context mContext;
     private static Typeface robotoLight;
     private boolean isPercent;
+    private View mEmptyView;
 
-    public QuoteCursorAdapter(Context context, Cursor cursor) {
+    public QuoteCursorAdapter(Context context, Cursor cursor, View emptyView) {
         super(context, cursor);
         mContext = context;
+        mEmptyView = emptyView;
     }
 
     @Override
@@ -108,6 +110,12 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
     @Override
     public int getItemCount() {
         return super.getItemCount();
+    }
+
+    @Override
+    public Cursor swapCursor(Cursor newCursor) {
+        mEmptyView.setVisibility(newCursor == null || newCursor.getCount() == 0 ? View.VISIBLE : View.GONE);
+        return super.swapCursor(newCursor);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder

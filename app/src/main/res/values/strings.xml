@@ -15,5 +15,6 @@
     <string name="date_description"/>
     <string name="time_description"/>
     <string name="time_format">(%1$s)</string>
-    <string name="empty_view_text">No data available</string>
+    <string name="empty_view_text">No data available. Please, check your connection and/or add a new stock symbol.</string>
+    <string name="try_again">Try again</string>
 </resources>
