@@ -7,14 +7,16 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="16dp"
+    android:paddingEnd="16dp"
     android:paddingRight="16dp"
+    android:paddingStart="16dp"
     >
 
     <TextView
         android:id="@+id/stock_symbol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="left|center_vertical"
+        android:gravity="start|center_vertical"
         tools:text="GOOG"
         style="@style/StockSymbolTextStyle"
         android:contentDescription="@string/symbol_description"
@@ -24,14 +26,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="right"
+        android:gravity="end"
         >
 
         <TextView
             android:id="@+id/bid_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="10sp"
+            android:layout_marginRight="10sp"
+            android:layout_marginEnd="10sp"
             tools:text="1000.00"
             style="@style/BidPriceTextStyle"
             android:contentDescription="@string/bid_price_description"
@@ -43,7 +46,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/percent_change_pill"
             android:paddingLeft="3dp"
+            android:paddingStart="3dp"
             android:paddingRight="3dp"
+            android:paddingEnd="3dp"
             tools:text="100%"
             style="@style/PercentChangeTextStyle"
             android:contentDescription="@string/change_description"
