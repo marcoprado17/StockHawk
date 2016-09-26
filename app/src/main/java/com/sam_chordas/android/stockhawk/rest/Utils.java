@@ -34,14 +34,18 @@ public class Utils {
                 if (count == 1) {
                     jsonObject = jsonObject.getJSONObject("results")
                             .getJSONObject("quote");
-                    batchOperations.add(buildBatchOperation(jsonObject, created));
+                    if( !jsonObject.getString("Bid").equals("null")){
+                        batchOperations.add(buildBatchOperation(jsonObject, created));
+                    }
                 } else {
                     resultsArray = jsonObject.getJSONObject("results").getJSONArray("quote");
 
                     if (resultsArray != null && resultsArray.length() != 0) {
                         for (int i = 0; i < resultsArray.length(); i++) {
                             jsonObject = resultsArray.getJSONObject(i);
-                            batchOperations.add(buildBatchOperation(jsonObject, created));
+                            if( !jsonObject.getString("Bid").equals("null")){
+                                batchOperations.add(buildBatchOperation(jsonObject, created));
+                            }
                         }
                     }
                 }
@@ -53,6 +57,7 @@ public class Utils {
     }
 
     public static String truncateBidPrice(String bidPrice) {
+        Log.d("MPRADO", "bidPrice: " + bidPrice);
         bidPrice = String.format("%.2f", Float.parseFloat(bidPrice));
         return bidPrice;
     }

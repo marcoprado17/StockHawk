@@ -100,7 +100,7 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
         notifyItemRemoved(position);
         Log.d("MPRADO", "Launching ACTION_DATA_UPDATED broadcast from StockTaskService");
         Log.d("MPRADO", "mContext.getPackageName(): " + mContext.getPackageName());
-        Intent dataUpdatedIntent = new Intent(StockTaskService.ACTION_DATA_UPDATED)git
+        Intent dataUpdatedIntent = new Intent(StockTaskService.ACTION_DATA_UPDATED)
                 .setPackage(mContext.getPackageName());
         mContext.sendBroadcast(dataUpdatedIntent);
     }
