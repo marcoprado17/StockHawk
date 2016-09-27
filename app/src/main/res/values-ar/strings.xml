@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--TODO: Translate to Arabic-->
+    <string name="action_settings">Configurações</string>
+    <string name="content_test">Procurar por um símbolo de ação</string>
+    <string name="network_toast">Uh-oh! Esse app requer conexão com internet</string>
+    <string name="action_change_units">Mudar unidade</string>
+    <string name="symbol_search">Busca de símbolo</string>
+    <string name="add_new_stock">Adicionar nova ação</string>
+    <string name="symbol_description">Ação: %1$s.</string>
+    <string name="bid_price_description">Preço da oferta: %1$s.</string>
+    <string name="change_description">Mudança na ação: %1$s.</string>
+    <string name="stock_detail_title">Ação %1$s</string>
+    <string name="empty_view_text">Nenhuma informação disponível. Por favor, verifique sua conexão e/ou adicione uma nova ação.</string>
+    <string name="try_again">Tentar novamente</string>
+</resources>

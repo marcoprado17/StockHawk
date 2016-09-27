@@ -9,4 +9,7 @@
     <string name="symbol_description">Ação: %1$s.</string>
     <string name="bid_price_description">Preço da oferta: %1$s.</string>
     <string name="change_description">Mudança na ação: %1$s.</string>
+    <string name="stock_detail_title">Ação %1$s</string>
+    <string name="empty_view_text">Nenhuma informação disponível. Por favor, verifique sua conexão e/ou adicione uma nova ação.</string>
+    <string name="try_again">Tentar novamente</string>
 </resources>
