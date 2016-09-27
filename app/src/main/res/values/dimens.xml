@@ -9,4 +9,8 @@
     <dimen name="toolbar_elevation">4dp</dimen>
 
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="list_item_quote_padding">16dp</dimen>
+    <dimen name="bid_price_margin_end">10sp</dimen>
+    <dimen name="change_horizontal_padding">3dp</dimen>
+    <dimen name="time_margin_start">8dp</dimen>
 </resources>
