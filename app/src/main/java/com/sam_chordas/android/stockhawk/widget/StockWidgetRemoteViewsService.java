@@ -6,9 +6,7 @@ package com.sam_chordas.android.stockhawk.widget;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.os.Build;
-import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -42,17 +40,11 @@ public class StockWidgetRemoteViewsService extends RemoteViewsService {
 
             @Override
             public void onCreate() {
-//                data = getData();
-//                Log.d("MPRADO", "StockRemoteViewFactory.onCreate");
-//                Log.d("MPRADO", DatabaseUtils.dumpCursorToString(data));
             }
 
             @Override
             public void onDataSetChanged() {
-                Log.d("MPRADO", "StockRemoteViewFactory.onDataSetChanged");
-                Log.d("MPRADO", "getApplicationContext().getPackageName(): " + getApplicationContext().getPackageName());
                 data = getData();
-                Log.d("MPRADO", DatabaseUtils.dumpCursorToString(data));
             }
 
             private Cursor getData() {
@@ -79,7 +71,6 @@ public class StockWidgetRemoteViewsService extends RemoteViewsService {
 
             @Override
             public RemoteViews getViewAt(int position) {
-                Log.d("MPRADO", "StockRemoteViewFactory.getViewAt(" + position + ")");
 
                 if (position == AdapterView.INVALID_POSITION ||
                         data == null || !data.moveToPosition(position)) {

@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +48,6 @@ public class QuoteInTimeCursorAdapter extends CursorRecyclerViewAdapter<QuoteInT
     public void onBindViewHolder(final ViewHolder viewHolder, final Cursor cursor) {
         String dateTime = cursor.getString(cursor.getColumnIndex(QuoteColumns.DATETIME));
         dateTime = dateTime.substring(0,10)+' '+dateTime.substring(11, 19);
-        Log.d("MPRADO", "dateTime: " + dateTime);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         TimeZone utcZone = TimeZone.getTimeZone("UTC");
@@ -64,7 +62,6 @@ public class QuoteInTimeCursorAdapter extends CursorRecyclerViewAdapter<QuoteInT
         simpleDateFormat.setTimeZone(TimeZone.getDefault());
         String formattedDate = simpleDateFormat.format(myDate);
 
-        Log.d("MPRADO", "formattedDate: " + formattedDate);
 
         viewHolder.date.setText(Utils.getDate(formattedDate));
         String time = String.format(mContext.getString(R.string.time_format), Utils.getTime(formattedDate));

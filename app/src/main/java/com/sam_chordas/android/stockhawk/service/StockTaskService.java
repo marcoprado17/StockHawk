@@ -7,7 +7,6 @@ import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.os.RemoteException;
-import android.util.Log;
 
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
@@ -29,8 +28,6 @@ import java.net.URLEncoder;
  * and is used for the initialization and adding task as well.
  */
 public class StockTaskService extends GcmTaskService {
-    private String LOG_TAG = StockTaskService.class.getSimpleName();
-
     private OkHttpClient client = new OkHttpClient();
     private Context mContext;
     private StringBuilder mStoredSymbols = new StringBuilder();
@@ -56,8 +53,6 @@ public class StockTaskService extends GcmTaskService {
 
     @Override
     public int onRunTask(TaskParams params) {
-        Log.d("MPRADO", "StockTaskService.onRunTask");
-
         Cursor initQueryCursor;
         if (mContext == null) {
             mContext = this;
@@ -119,7 +114,6 @@ public class StockTaskService extends GcmTaskService {
 
         if (urlStringBuilder != null) {
             urlString = urlStringBuilder.toString();
-            Log.d("MPRADO", "urlString: " + urlString);
             try {
                 getResponse = fetchData(urlString);
                 result = GcmNetworkManager.RESULT_SUCCESS;
@@ -134,7 +128,6 @@ public class StockTaskService extends GcmTaskService {
                     mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
                             Utils.quoteJsonToContentVals(getResponse));
                 } catch (RemoteException | OperationApplicationException e) {
-                    Log.e(LOG_TAG, "Error applying batch insert", e);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -142,8 +135,6 @@ public class StockTaskService extends GcmTaskService {
         }
 
         if(result == GcmNetworkManager.RESULT_SUCCESS){
-            Log.d("MPRADO", "Launching ACTION_DATA_UPDATED broadcast from StockTaskService");
-            Log.d("MPRADO", "mContext.getPackageName(): " + mContext.getPackageName());
             Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED)
                     .setPackage(mContext.getPackageName());
             mContext.sendBroadcast(dataUpdatedIntent);

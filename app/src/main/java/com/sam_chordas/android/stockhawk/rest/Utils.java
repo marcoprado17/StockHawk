@@ -1,7 +1,6 @@
 package com.sam_chordas.android.stockhawk.rest;
 
 import android.content.ContentProviderOperation;
-import android.util.Log;
 
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
@@ -16,8 +15,6 @@ import org.json.JSONObject;
  * Created by sam_chordas on 10/8/15.
  */
 public class Utils {
-
-    private static String LOG_TAG = Utils.class.getSimpleName();
 
     public static boolean showPercent = true;
 
@@ -51,13 +48,11 @@ public class Utils {
                 }
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "String to JSON failed: " + e);
         }
         return batchOperations;
     }
 
     public static String truncateBidPrice(String bidPrice) {
-        Log.d("MPRADO", "bidPrice: " + bidPrice);
         bidPrice = String.format("%.2f", Float.parseFloat(bidPrice));
         return bidPrice;
     }
@@ -104,7 +99,6 @@ public class Utils {
 
     public static String getSpacedSymbol(String symbol) {
         String spacedSymbol = symbol.replace("", " ").trim() + " ";
-        Log.d("MPRADO", "spacedSymbol: " + spacedSymbol);
         return spacedSymbol;
     }
 

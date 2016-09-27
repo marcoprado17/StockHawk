@@ -9,14 +9,12 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
@@ -49,7 +47,6 @@ public class StockDetailsActivity extends AppCompatActivity implements LoaderMan
         setSupportActionBar(toolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if(supportActionBar != null){
-            Log.d("MPRADO", "supportActionBar != null");
             supportActionBar.setDisplayShowTitleEnabled(true);
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -79,12 +76,7 @@ public class StockDetailsActivity extends AppCompatActivity implements LoaderMan
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.d("MPRADO", "StockDetailsActivity.onLoadFinished");
-        Log.d("MPRADO", "Cursor before filter");
-        Log.d("MPRADO", DatabaseUtils.dumpCursorToString(data));
         data = filter(data);
-        Log.d("MPRADO", "Cursor after filter");
-        Log.d("MPRADO", DatabaseUtils.dumpCursorToString(data));
         mCursorAdapter.swapCursor(data);
     }
 

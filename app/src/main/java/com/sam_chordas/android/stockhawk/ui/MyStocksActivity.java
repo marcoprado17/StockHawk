@@ -16,7 +16,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -167,8 +166,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     }
 
     private void pullFromYahooAPI(Bundle savedInstanceState) {
-        Log.d("MPRADO", "pullFromYahooAPI");
-
         ConnectivityManager cm =
                 (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
