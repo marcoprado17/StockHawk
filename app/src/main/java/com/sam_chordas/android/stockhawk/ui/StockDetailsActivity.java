@@ -1,17 +1,15 @@
+/**
+ * Copyright (C) 2016 Marco Aurélio Prado dos Santos Vidoca
+ */
+
 package com.sam_chordas.android.stockhawk.ui;
 
-import android.app.Activity;
 import android.app.LoaderManager;
-import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
-import android.database.CharArrayBuffer;
-import android.database.ContentObserver;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.database.DatabaseUtils;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +23,9 @@ import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import com.sam_chordas.android.stockhawk.rest.QuoteInTimeCursorAdapter;
 
+/**
+ * Shows the share value varying in time
+ */
 public class StockDetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     public static final String STOCK_SYMBOL_KEY = "STOCK_SYMBOL_KEY";

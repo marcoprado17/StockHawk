@@ -1,10 +1,12 @@
+/**
+ * Copyright (C) 2016 Marco Aurélio Prado dos Santos Vidoca
+ */
 package com.sam_chordas.android.stockhawk.rest;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +16,6 @@ import android.widget.TextView;
 
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
-import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import com.sam_chordas.android.stockhawk.touch_helper.ItemTouchHelperViewHolder;
 
 import java.text.ParseException;
@@ -23,10 +24,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Created by sam_chordas on 10/6/15.
- * Credit to skyfishjy gist:
- * https://gist.github.com/skyfishjy/443b7448f59be978bc59
- * for the code structure
+ * Bind cursor data to widget list item layout
  */
 public class QuoteInTimeCursorAdapter extends CursorRecyclerViewAdapter<QuoteInTimeCursorAdapter.ViewHolder> {
 
