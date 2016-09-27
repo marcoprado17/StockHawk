@@ -21,7 +21,6 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/date_description"
             tools:text="2016-01-22"
             style="@style/DateTextStyle"
             />
@@ -32,7 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:contentDescription="@string/time_description"
             tools:text="(20:31)"
             style="@style/TimeTextStyle"
             />

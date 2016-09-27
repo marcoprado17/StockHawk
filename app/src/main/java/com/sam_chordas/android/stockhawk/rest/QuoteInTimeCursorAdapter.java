@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,11 @@ import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import com.sam_chordas.android.stockhawk.touch_helper.ItemTouchHelperViewHolder;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by sam_chordas on 10/6/15.
@@ -44,8 +50,26 @@ public class QuoteInTimeCursorAdapter extends CursorRecyclerViewAdapter<QuoteInT
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final Cursor cursor) {
         String dateTime = cursor.getString(cursor.getColumnIndex(QuoteColumns.DATETIME));
-        viewHolder.date.setText(Utils.getDate(dateTime));
-        String time = String.format(mContext.getString(R.string.time_format), Utils.getTime(dateTime));
+        dateTime = dateTime.substring(0,10)+' '+dateTime.substring(11, 19);
+        Log.d("MPRADO", "dateTime: " + dateTime);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        TimeZone utcZone = TimeZone.getTimeZone("UTC");
+        simpleDateFormat.setTimeZone(utcZone);
+        Date myDate = null;
+        try {
+            myDate = simpleDateFormat.parse(dateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        simpleDateFormat.setTimeZone(TimeZone.getDefault());
+        String formattedDate = simpleDateFormat.format(myDate);
+
+        Log.d("MPRADO", "formattedDate: " + formattedDate);
+
+        viewHolder.date.setText(Utils.getDate(formattedDate));
+        String time = String.format(mContext.getString(R.string.time_format), Utils.getTime(formattedDate));
         viewHolder.time.setText(time);
 
         String bidPrice = cursor.getString(cursor.getColumnIndex("bid_price"));
