@@ -21,7 +21,6 @@ public class StockWidgetRemoteViewsService extends RemoteViewsService {
             QuoteColumns._ID,
             QuoteColumns.SYMBOL,
             QuoteColumns.BIDPRICE,
-            QuoteColumns.PERCENT_CHANGE,
             QuoteColumns.CHANGE,
             QuoteColumns.ISUP
     };
@@ -29,9 +28,8 @@ public class StockWidgetRemoteViewsService extends RemoteViewsService {
     static final int INDEX_ID = 0;
     static final int INDEX_SYMBOL = 1;
     static final int INDEX_BIDPRICE = 2;
-    static final int INDEX_PERCENT_CHANGE = 3;
-    static final int INDEX_CHANGE = 4;
-    static final int INDEX_ISUP = 5;
+    static final int INDEX_CHANGE = 3;
+    static final int INDEX_ISUP = 4;
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
@@ -91,7 +89,6 @@ public class StockWidgetRemoteViewsService extends RemoteViewsService {
                 views.setTextViewText(R.id.bid_price, bidPrice);
                 views.setContentDescription(R.id.bid_price, bidPriceDescription);
 
-                int sdk = Build.VERSION.SDK_INT;
                 if (data.getInt(INDEX_ISUP) == 1) {
                     views.setInt(R.id.change, "setBackgroundResource", R.drawable.percent_change_pill_green);
                 } else {
