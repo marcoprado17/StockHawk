@@ -35,6 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/bid_price_margin_end"
             android:layout_marginEnd="@dimen/bid_price_margin_end"
+            android:layout_marginLeft="@dimen/zero"
+            android:layout_marginStart="@dimen/zero"
             tools:text="1000.00"
             style="@style/BidPriceTextStyle"
             android:contentDescription="@string/bid_price_description"
