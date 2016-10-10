@@ -8,22 +8,33 @@ import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
-import com.db.chart.model.LineSet;
-import com.db.chart.view.AxisController;
-import com.db.chart.view.ChartView;
-import com.db.chart.view.LineChartView;
+//import com.db.chart.model.LineSet;
+//import com.db.chart.view.AxisController;
+//import com.db.chart.view.ChartView;
+//import com.db.chart.view.LineChartView;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import com.sam_chordas.android.stockhawk.rest.QuoteInTimeCursorAdapter;
+import com.sam_chordas.android.stockhawk.rest.Utils;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Shows the share value varying in time
@@ -74,33 +85,53 @@ public class StockDetailsActivity extends AppCompatActivity implements LoaderMan
                         QuoteColumns.PERCENT_CHANGE, QuoteColumns.CHANGE, QuoteColumns.ISUP, QuoteColumns.DATETIME},
                 null,
                 null,
-                QuoteColumns.DATETIME + " DESC");
+                QuoteColumns.DATETIME);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         data = filter(data);
 //        mCursorAdapter.swapCursor(data);
+        initGraph(data);
+    }
 
-        LineChartView chart = (LineChartView) findViewById(R.id.linechart);
-
-        chart.setStep(5);
-        chart.setAxisLabelsSpacing(10f);
-
-        LineSet lineSet = new LineSet();
+    private void initGraph(Cursor data) {
         int bidPriceColumnIndex = data.getColumnIndex(QuoteColumns.BIDPRICE);
         int dateTimeColumnIndex = data.getColumnIndex(QuoteColumns.DATETIME);
+
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+
+        List<DataPoint> allDataPoint = new ArrayList<>();
 
         if(data.moveToFirst()){
             while (data.moveToNext()){
                 Double bidPrice = data.getDouble(bidPriceColumnIndex);
                 String dateTime = data.getString(dateTimeColumnIndex);
-                lineSet.addPoint(dateTime, Float.parseFloat(bidPrice.toString()));
+                Date date = Utils.getLocalDate(dateTime);
+                Log.d("MPRADO", "date: " + date.toString());
+                Log.d("MPRADO", "bidPrice: " + bidPrice);
+                DataPoint dataPoint = new DataPoint(date, bidPrice);
+                allDataPoint.add(dataPoint);
             }
         }
 
-        chart.addData(lineSet);
-        chart.show();
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(allDataPoint.toArray(new DataPoint[allDataPoint.size()]));
+
+        graph.addSeries(series);
+
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(graph.getContext()));
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            graph.getGridLabelRenderer().setNumHorizontalLabels(3);
+        }
+        else {
+            graph.getGridLabelRenderer().setNumHorizontalLabels(5);
+        }
+
+        graph.getViewport().setScalable(true);
+        graph.getViewport().setScalableY(false);
+
+        graph.getGridLabelRenderer().setHumanRounding(false);
+        graph.getGridLabelRenderer().setTextSize(22f);
     }
 
     private Cursor filter(Cursor data) {

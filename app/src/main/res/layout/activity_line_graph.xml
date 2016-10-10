@@ -15,12 +15,18 @@
         android:layout_weight="1"
         >
 
-        <com.db.chart.view.LineChartView
-            android:id="@+id/linechart"
+        <!--<com.db.chart.view.LineChartView-->
+        <!--android:id="@+id/linechart"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_margin="@dimen/chart_margin"-->
+        <!--/>-->
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graph"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/chart_margin"
-            />
+            android:layout_margin="@dimen/chart_margin"/>
     </FrameLayout>
 </LinearLayout>
 

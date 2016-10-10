@@ -5,7 +5,11 @@ import android.content.ContentProviderOperation;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -108,5 +112,30 @@ public class Utils {
 
     public static String getTime(String dateTime) {
         return dateTime.substring(11, 16);
+    }
+
+    public static Date getLocalDate(String dateTime) {
+        dateTime = dateTime.substring(0,10)+' '+dateTime.substring(11, 19);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        TimeZone utcZone = TimeZone.getTimeZone("UTC");
+        simpleDateFormat.setTimeZone(utcZone);
+        Date myDate = null;
+        try {
+            myDate = simpleDateFormat.parse(dateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        simpleDateFormat.setTimeZone(TimeZone.getDefault());
+        String formattedDate = simpleDateFormat.format(myDate);
+
+        try {
+            myDate = simpleDateFormat.parse(formattedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return myDate;
     }
 }
