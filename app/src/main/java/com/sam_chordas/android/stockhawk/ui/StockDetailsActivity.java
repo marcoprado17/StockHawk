@@ -14,12 +14,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
-//import com.db.chart.model.LineSet;
-//import com.db.chart.view.AxisController;
-//import com.db.chart.view.ChartView;
-//import com.db.chart.view.LineChartView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
@@ -27,48 +22,40 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
-import com.sam_chordas.android.stockhawk.rest.QuoteInTimeCursorAdapter;
 import com.sam_chordas.android.stockhawk.rest.Utils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Shows the share value varying in time
  */
-public class StockDetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class StockDetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String STOCK_SYMBOL_KEY = "STOCK_SYMBOL_KEY";
     private static final int CURSOR_LOADER_ID = 0;
 
     private String mSymbol;
-    private QuoteInTimeCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_graph);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Intent intent = getIntent();
-        if(intent != null && intent.hasExtra(STOCK_SYMBOL_KEY)){
+        if (intent != null && intent.hasExtra(STOCK_SYMBOL_KEY)) {
             mSymbol = intent.getStringExtra(STOCK_SYMBOL_KEY);
             String title = String.format(getString(R.string.stock_detail_title), mSymbol.toUpperCase());
             toolbar.setTitle(title);
         }
         setSupportActionBar(toolbar);
         ActionBar supportActionBar = getSupportActionBar();
-        if(supportActionBar != null){
+        if (supportActionBar != null) {
             supportActionBar.setDisplayShowTitleEnabled(true);
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
-//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        mCursorAdapter = new QuoteInTimeCursorAdapter(this, null);
-//        recyclerView.setAdapter(mCursorAdapter);
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
     }
 
@@ -90,8 +77,6 @@ public class StockDetailsActivity extends AppCompatActivity implements LoaderMan
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        data = filter(data);
-//        mCursorAdapter.swapCursor(data);
         initGraph(data);
     }
 
@@ -103,13 +88,11 @@ public class StockDetailsActivity extends AppCompatActivity implements LoaderMan
 
         List<DataPoint> allDataPoint = new ArrayList<>();
 
-        if(data.moveToFirst()){
-            while (data.moveToNext()){
+        if (data.moveToFirst()) {
+            while (data.moveToNext()) {
                 Double bidPrice = data.getDouble(bidPriceColumnIndex);
                 String dateTime = data.getString(dateTimeColumnIndex);
                 Date date = Utils.getLocalDate(dateTime);
-                Log.d("MPRADO", "date: " + date.toString());
-                Log.d("MPRADO", "bidPrice: " + bidPrice);
                 DataPoint dataPoint = new DataPoint(date, bidPrice);
                 allDataPoint.add(dataPoint);
             }
@@ -120,10 +103,9 @@ public class StockDetailsActivity extends AppCompatActivity implements LoaderMan
         graph.addSeries(series);
 
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(graph.getContext()));
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             graph.getGridLabelRenderer().setNumHorizontalLabels(3);
-        }
-        else {
+        } else {
             graph.getGridLabelRenderer().setNumHorizontalLabels(5);
         }
 
@@ -134,13 +116,7 @@ public class StockDetailsActivity extends AppCompatActivity implements LoaderMan
         graph.getGridLabelRenderer().setTextSize(22f);
     }
 
-    private Cursor filter(Cursor data) {
-        // TODO: Remove rows with a datetime less than a predefined interval (3h)
-        return data;
-    }
-
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-//        mCursorAdapter.swapCursor(null);
     }
 }
