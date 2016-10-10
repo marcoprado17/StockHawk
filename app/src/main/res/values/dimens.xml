@@ -14,4 +14,5 @@
     <dimen name="change_horizontal_padding">3dp</dimen>
     <dimen name="time_margin_start">8dp</dimen>
     <dimen name="zero">0dp</dimen>
+    <dimen name="chart_margin">15dp</dimen>
 </resources>

@@ -16,6 +16,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.db.chart.model.LineSet;
+import com.db.chart.view.AxisController;
+import com.db.chart.view.ChartView;
+import com.db.chart.view.LineChartView;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
@@ -35,7 +39,7 @@ public class StockDetailsActivity extends AppCompatActivity implements LoaderMan
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stock_details);
+        setContentView(R.layout.activity_line_graph);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         Intent intent = getIntent();
@@ -50,12 +54,11 @@ public class StockDetailsActivity extends AppCompatActivity implements LoaderMan
             supportActionBar.setDisplayShowTitleEnabled(true);
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mCursorAdapter = new QuoteInTimeCursorAdapter(this, null);
-        recyclerView.setAdapter(mCursorAdapter);
+//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        mCursorAdapter = new QuoteInTimeCursorAdapter(this, null);
+//        recyclerView.setAdapter(mCursorAdapter);
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
-
     }
 
     @Override
@@ -77,7 +80,27 @@ public class StockDetailsActivity extends AppCompatActivity implements LoaderMan
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         data = filter(data);
-        mCursorAdapter.swapCursor(data);
+//        mCursorAdapter.swapCursor(data);
+
+        LineChartView chart = (LineChartView) findViewById(R.id.linechart);
+
+        chart.setStep(5);
+        chart.setAxisLabelsSpacing(10f);
+
+        LineSet lineSet = new LineSet();
+        int bidPriceColumnIndex = data.getColumnIndex(QuoteColumns.BIDPRICE);
+        int dateTimeColumnIndex = data.getColumnIndex(QuoteColumns.DATETIME);
+
+        if(data.moveToFirst()){
+            while (data.moveToNext()){
+                Double bidPrice = data.getDouble(bidPriceColumnIndex);
+                String dateTime = data.getString(dateTimeColumnIndex);
+                lineSet.addPoint(dateTime, Float.parseFloat(bidPrice.toString()));
+            }
+        }
+
+        chart.addData(lineSet);
+        chart.show();
     }
 
     private Cursor filter(Cursor data) {
@@ -87,6 +110,6 @@ public class StockDetailsActivity extends AppCompatActivity implements LoaderMan
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mCursorAdapter.swapCursor(null);
+//        mCursorAdapter.swapCursor(null);
     }
 }
